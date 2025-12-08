@@ -1,65 +1,92 @@
-import Image from "next/image";
+"use client"
+
+import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useState, useEffect } from "react"
+import ContentArea from "@/components/content-area"
+import { CATEGORIES } from "@/lib/projects"
+
+export const PROJECTS = [
+  {
+    id: "red-card-tokyo",
+    title: "RED CARD TOKYO",
+    description:
+      "New concept denim from Tokyo, evolving with the times and culture. The theory that denim is sturdy and long wearing is out of date denim that is not constrained to stereotypes. Creation based on producer Yuji Honzawa's 3F principles (Fabric, Fit, Finish), each piece represents each artisan's craftsmanship. This is RED CARD TOKYO denim. The delicate Japanese craftsmanship is prevalent all aspects; wash, whiskers and details to create a real vintage look and feel. Not based on conventional thinking, RED CARD TOKYO represents the Japanese sensitivity to detail. The evolution of REAL DENIM.",
+    image: "/images/image.png",
+    link: "http://redcard.tokyo/",
+    number: "01",
+  },
+  {
+    id: "upper-hights",
+    title: "upper hights",
+    description:
+      "Exploring the upper dimensions of denim aesthetics. A project focused on elevated craftsmanship and premium material selection. Each piece is carefully curated to represent the pinnacle of denim innovation.",
+    image: "/premium-denim-fashion.jpg",
+    link: "http://example.com/upper-hights",
+    number: "02",
+  },
+  {
+    id: "healthy-denim",
+    title: "Healthy DENIM",
+    description:
+      "Sustainable denim production with focus on environmental responsibility. This collection emphasizes healthy manufacturing practices and eco-friendly materials without compromising on quality and design.",
+    image: "/sustainable-denim-eco-friendly.jpg",
+    link: "http://example.com/healthy-denim",
+    number: "03",
+  },
+  {
+    id: "haunt",
+    title: "HAUNT",
+    description:
+      "A haunting collection that explores the darker aesthetics of vintage denim. Each piece carries a mysterious narrative, blending traditional craftsmanship with contemporary edge and bold design statements.",
+    image: "/dark-gothic-denim-vintage.jpg",
+    link: "http://example.com/haunt",
+    number: "04",
+  },
+  {
+    id: "state-of-mind",
+    title: "STATE OF MIND",
+    description:
+      "An introspective collection that reflects emotional states through fabric and form. This project examines how denim can express psychological concepts and personal narratives through innovative design.",
+
+    image: "/abstract-emotional-denim-art.jpg",
+    link: "http://example.com/state-of-mind",
+    number: "05",
+  }
+]
 
 export default function Home() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const projectId = searchParams.get("project")
+  const [selectedProject, setSelectedProject] = useState<string | null>(projectId)
+
+  useEffect(() => {
+    setSelectedProject(projectId)
+  }, [projectId])
+
+  const currentProject = selectedProject ? PROJECTS.find((p) => p.id === selectedProject) : null
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-white text-foreground flex flex-col items-center justify-center p-8">
+      <div className="text-center mb-16">
+        <h1 className="text-5xl font-light tracking-widest text-foreground mb-4">GUEST LIST</h1>
+        <p className="text-sm text-muted-foreground tracking-wide">Select a category to explore projects</p>
+      </div>
+
+      <div className="flex gap-8">
+        {Object.values(CATEGORIES).map((category) => (
+          <Link
+            key={category.slug}
+            href={`/${category.slug}/projects/${category.projects[0].id}`}
+            className="px-12 py-6 border border-foreground text-foreground font-light tracking-widest hover:bg-foreground hover:text-background transition-all duration-300"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            {category.name}
+          </Link>
+        ))}
+      </div>
+
+      {currentProject && <ContentArea project={currentProject} />}
     </div>
-  );
+  )
 }
