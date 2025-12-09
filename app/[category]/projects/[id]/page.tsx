@@ -1,10 +1,17 @@
 "use client"
 
 import { useRouter, useParams } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import Sidebar from "@/components/sidebar"
 import ContentArea from "@/components/content-area"
-import { getCategoryBySlug, getProjectById } from "@/lib/projects"
+import { getAllProjectTitlesByCategory, getCategoryBySlug, getProjectById } from "@/lib/projects"
+import { IProjectTypes } from "@/app/page"
+
+export interface Projects {
+  id: string
+  title: string
+  number: number
+}
 
 export default function ProjectPage() {
   const router = useRouter()
@@ -13,10 +20,28 @@ export default function ProjectPage() {
   const projectId = params.id as string
 
   const categoryData = getCategoryBySlug(category)
-  const currentProject = categoryData ? getProjectById(category, projectId) : null
   const [mounted, setMounted] = useState(false)
 
+  const [projectList, setProjectList] = useState<Projects[]>([])
+  const [currentProject, setCurrentProject] = useState<IProjectTypes>({
+    number: 0,
+    id: "", 
+    title: "", 
+    repoLink: "",
+    techStack: [],
+    owners: []
+  });
+
   useEffect(() => {
+
+    (async () => {
+      const currentProjectData = categoryData ? await getProjectById(category, projectId) : null
+      const data = await getAllProjectTitlesByCategory(category)
+
+      setCurrentProject({number: 0, ...currentProjectData!})
+      setProjectList(data);
+    })()
+
     setMounted(true)
   }, [])
 
@@ -34,14 +59,10 @@ export default function ProjectPage() {
     router.push(`/${category}/projects/${id}`)
   }
 
-  const handleClose = () => {
-    router.push("/")
-  }
-
   return (
     <div className="min-h-screen bg-white text-foreground flex">
       <Sidebar
-        projects={categoryData.projects}
+        projects={projectList}
         selectedProjectId={projectId}
         onProjectClick={handleProjectClick}
         category={category}
