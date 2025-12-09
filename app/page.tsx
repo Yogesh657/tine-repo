@@ -2,6 +2,21 @@
 
 import Link from "next/link"
 import { CATEGORIES } from "@/lib/projects"
+import { TinaMarkdownContent } from "tinacms/dist/rich-text";
+
+export interface IProjectTypes {
+  number: number;
+  id: string;
+  title: string;
+  description?: TinaMarkdownContent
+  images?: string[],
+  deployLink?: string;
+  repoLink: string;
+  techStack: string[];
+  owners: string[];
+  startDate?: string;
+  endDate?: string;
+}
 
 export default function Home() {
   return (
