@@ -11,9 +11,9 @@ export default defineConfig({
   branch,
 
   // Get this from tina.io
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
+  clientId: "405dcdf1-850f-4b5e-98e9-507d8d2a1f23",
   // Get this from tina.io
-  token: process.env.TINA_TOKEN,
+  token: "2d3db28315d73357db15205f7137a29c7cf3437d",
 
   build: {
     outputFolder: "admin",
@@ -46,12 +46,12 @@ export default defineConfig({
             label: "Project Description",
             required: true,
           },
-          {
-            name: "screenshots",
-            label: "Screenshots",
-            type: "image",
-            list: true
-          },
+          // {
+          //   name: "screenshots",
+          //   label: "Screenshots",
+          //   type: "image",
+          //   list: true
+          // },
           {
             name: "techStack",
             label: "Tech Stack",
@@ -89,12 +89,12 @@ export default defineConfig({
             label: "Project Description",
             required: true,
           },
-          {
-            name: "screenshots",
-            label: "Screenshots",
-            type: "image",
-            list: true
-          },
+          // {
+          //   name: "screenshots",
+          //   label: "Screenshots",
+          //   type: "image",
+          //   list: true
+          // },
           {
             name: "techStack",
             label: "Tech Stack",
