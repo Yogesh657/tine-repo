@@ -1,4 +1,4 @@
-node_modules
-.env.local
+node_modules/*
+.next/*
+*Zone.Identifier
 .env
-.next
